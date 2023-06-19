@@ -167,12 +167,12 @@ timer timer_inst
 	.y2(bMKR_D[9])
 	);
 */
-		VGA_GAME VGA_GAME_inst
+VGA_SHADERS VGA_SHADERS_inst
 	(
 	.clock(wCLK120),//wOSC_CLK 
-	.red_F(bMKR_D[10]),
-	.green_F(bMKR_D[9]),
-	.blue_F(bMKR_D[0]),
+	.red_F(bMKR_D[2:0]),
+	.green_F(bMKR_D[8:6]),
+	.blue_F(bMKR_D[10:9]),
 	.hsync(bMKR_D[5]),
 	.vsync(bMKR_D[4]),
 	
