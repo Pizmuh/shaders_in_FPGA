@@ -84,8 +84,8 @@ end
 
 reg [1:0] sub_px = 0;
 
-reg [11:0] x = 0;
-reg [11:0] y = 0;
+reg signed [15:0] x = 0;
+reg signed [15:0] y = 0;
 
 // upravljanje layerjev
 always @ (posedge counter)
@@ -95,8 +95,8 @@ begin
 		sub_px <= sub_px + 1;
 		timer <= timer+1;
 
-		x <= hcount - (800/2);//-timer;
-		y <= vcount - (600/2);
+		x <= (hcount*10000 )/800;//-timer;
+		y <= (vcount*10000 )/600;
 		
 		
 		
@@ -111,9 +111,9 @@ begin
 		
 		
 		
-	   green_F <= (hcount - 800/2)*2; //(x & 3'b001 >= sub_px);//3'b101 == sub_px;
-      blue_F  <= 2'b10;//barva; 
-      red_F   <= (vcount - 600/2)*2;//(y & 3'b001 >= sub_px);
+	   green_F <= x>>10; //(x & 3'b001 >= sub_px);//3'b101 == sub_px;
+      blue_F  <= 2'b00;//barva; 
+      red_F   <= y>>10;//(y & 3'b001 >= sub_px);
 	 end 
 	 else begin
 	   green_F <= 3'b000;
