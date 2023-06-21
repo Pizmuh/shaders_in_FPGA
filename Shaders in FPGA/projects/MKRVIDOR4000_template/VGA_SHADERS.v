@@ -84,8 +84,9 @@ end
 
 reg [1:0] sub_px = 0;
 
-reg signed [15:0] x = 0;
-reg signed [15:0] y = 0;
+reg  [11:0] x = 0;
+reg [11:0] y = 0;
+reg signed [30:0] d = 0;
 
 // upravljanje layerjev
 always @ (posedge counter)
@@ -93,28 +94,52 @@ begin
  if (enable)
  
 		sub_px <= sub_px + 1;
-		timer <= timer+1;
+		timer <= timer + 1;
+		
 
-		x <= (hcount*10000 )/800;//-timer;
-		y <= (vcount*10000 )/600;
+	
+		x <= hcount;//-timer;
+		y <= vcount ;
+		d <= 2'b11 & ((x*x + y*y) <= 80000);
 		
 		
 		
 		
 		
 	if (hcount > 0 && hcount < 800 && vcount > 0 && vcount < 600) begin
+
+	 //green <= timer>>10 + a;//{timer[2:0], timer[15:3]}
+	   //a <= a - timer;
+	   //green_F <= y;//d>>15; //(x & 3'b001 >= sub_px);//3'b101 == sub_px;
+      blue_F  <= d;//barva; 
+     // red_F   <= x;//(y & 3'b001 >= sub_px);
+	 end /*
+	 else if (hcount > 0 && hcount < 400 && vcount > 300 && vcount < 600) begin
 	
 	
 	 //green <= timer>>10 + a;//{timer[2:0], timer[15:3]}
 	   //a <= a - timer;
-		
-		
-		
-		
-	   green_F <= x>>10; //(x & 3'b001 >= sub_px);//3'b101 == sub_px;
+	   green_F <= 4'b1100 - y;//d>>15; //(x & 3'b001 >= sub_px);//3'b101 == sub_px;
       blue_F  <= 2'b00;//barva; 
-      red_F   <= y>>10;//(y & 3'b001 >= sub_px);
+      red_F   <= x;//(y & 3'b001 >= sub_px);
 	 end 
+	  else if (hcount > 400 && hcount < 800 && vcount > 300 && vcount < 600) begin
+	
+	
+	 //green <= timer>>10 + a;//{timer[2:0], timer[15:3]}
+	   //a <= a - timer;
+	   green_F <= y;//d>>15; //(x & 3'b001 >= sub_px);//3'b101 == sub_px;
+      blue_F  <= 2'b00;//barva; 
+      red_F   <= 4'b1000 - x;//(y & 3'b001 >= sub_px);
+	 end 
+	  else if (hcount > 400 && hcount < 800 && vcount > 0 && vcount < 300) begin
+	
+	 //green <= timer>>10 + a;//{timer[2:0], timer[15:3]}
+	   //a <= a - timer;
+	   green_F <= y;//d>>15; //(x & 3'b001 >= sub_px);//3'b101 == sub_px;
+      blue_F  <= 2'b00;//barva; 
+      red_F   <= 4'b1000 - x;//(y & 3'b001 >= sub_px);
+	 end */
 	 else begin
 	   green_F <= 3'b000;
       blue_F <= 2'b00; 
