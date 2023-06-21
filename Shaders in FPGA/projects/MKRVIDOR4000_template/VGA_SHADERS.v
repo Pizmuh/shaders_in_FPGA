@@ -98,8 +98,8 @@ begin
 		
 
 	
-	   x <= hcount *1000 /800; //Pretvori v decimalni zapis aka, to kr se izpuše so sam decimalke ki ostanejo pri deljenju z nič
-		y <= vcount *1000/600 ; // Ponovno pretvorba v decimalke in reduciranje vrednosti od 0 do 1
+	   x <= ((hcount *1000/800) -500)*2; //Pretvori v decimalni zapis aka, to kr se izpuše so sam decimalke ki ostanejo pri deljenju z nič
+		y <= ((vcount *1000/600 ) - 500)*2; // Ponovno pretvorba v decimalke in reduciranje vrednosti od 0 do 1
 		d <= 2'b11 & (x*x+ y* y <= 250000);
 		
 		
@@ -108,12 +108,14 @@ begin
 		
 		
 	if (hcount > 0 && hcount < 800 && vcount > 0 && vcount < 600) begin
+		
+	
 
 	 //green <= timer>>10 + a;//{timer[2:0], timer[15:3]}
 	   //a <= a - timer;
-	   green_F <= y>>7;//d>>15; //(x & 3'b001 >= sub_px);//3'b101 == sub_px;
-      blue_F  <= d;//barva; 
-      red_F   <= x>>7;//(y & 3'b001 >= sub_px);
+	   green_F <= x>>7;//d>>15; //(x & 3'b001 >= sub_px);//3'b101 == sub_px;
+      blue_F  <= 2'b11;//barva; 
+      red_F   <= y>>7;//(y & 3'b001 >= sub_px);
 	 end /*
 	 else if (hcount > 0 && hcount < 400 && vcount > 300 && vcount < 600) begin
 	
