@@ -85,15 +85,28 @@ end
 reg [1:0] sub_px = 0;
 reg [11:0] i = 0;
 
-reg  signed [17:0] x = 0;
-reg signed [17:0] y = 0;
-reg signed [17:0] d = 0;
-reg signed [17:0] zx = 0;
-reg signed [17:0]zxx = 0;
-reg signed [17:0] zy = 0;/*
+reg signed [23:0] x = 0;
+reg signed [23:0] y = 0;
+reg signed [23:0] d = 0;
+reg signed [23:0] zx = 0;
+reg signed [23:0] zxx = 0;
+reg signed [23:0] zy = 0;/*
 reg signed [23:0] barva = 0;*/
 
 reg signed [2:0] vrednost = 0;
+
+
+reg [1:0] c;
+
+
+always @ (posedge clock)
+begin
+if  ((zx<0 && zx >0) ||(zy >0 && zx>0))begin
+	c <= 1'b1;
+	end else begin
+	c <= 0;
+	end
+end
 
 
 // upravljanje layerjev
@@ -103,13 +116,21 @@ begin
 	
 	for (i = 0; i<10;i++)begin
 
-			zxx<=  ((hcount *1000/800) - 500)*2 - 729 +zx*zx/1000 - zy*zy/1000 ;
-			zy <= ((vcount *1000/600) - 500)*2 + 210 + 2*zxx*zy/1000 ;
+			
+			zxx<=(((hcount*1000 )/800) - 500)*2 - 729 +zx*zx/1000 - zy*zy/1000 ;
+
+			if (c ==1)begin
+			zy <= (((vcount*1000)/600) - 500)*2 + 210 + 2*~zx*zy/1000 ;
+			end 
+			else begin
+			zy <= (((vcount *1000)/600) - 500)*2 + 210 + 2*zx*zy/1000 ;
+			end
 			zx<= zxx;
 			end
 	
-vrednost <=  ((zx*zx + zy*zy) <= 100000);
+vrednost <=  ((zx*zx + zy*zy) <= 10000000000);
 end
+
 always @ (posedge clock)
 begin
  if (enable)

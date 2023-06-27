@@ -99,10 +99,13 @@ reg [1:0] c;
 
 always @ (posedge clock)
 begin
-if (enable && (zx<0) ^(zy <0))begin
+if  ((zx<0 && zx >0) ||(zy >0 && zx>0))begin
 	c <= 1'b1;
+	end else begin
+	c <= 0;
 	end
 end
+
 	
 // upravljanje layerjev
 always @ (posedge clock)
@@ -120,13 +123,13 @@ begin
 	 
 
 
-			zx<=  ((hcount *1000/800) - 500)*2 - 729 +zx*zx/1000 - zy*zy/1000 ;
+			zxx<=  (((hcount*1000 )/800) - 500)*2 - 729;// +zx*zx/1000 - zy*zy/1000 ;
 
 			if (c ==1)begin
-			zy <= ((vcount *1000/600) - 500)*2 + 210 + 2*~zxx*zy/1000 ;
+			zy <= (((vcount*1000)/600) - 500)*2 + 210 ;//+ 2*~zx*zy/1000 ;
 			end 
 			else begin
-			zy <= ((vcount *1000/600) - 500)*2 + 210 + 2*zxx*zy/1000 ;
+			zy <= (((vcount *1000)/600) - 500)*2 + 210 ;//+ 2*zx*zy/1000 ;
 			end
 			zx<= zxx;
 		

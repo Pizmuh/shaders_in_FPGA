@@ -167,7 +167,7 @@ timer timer_inst
 	.y2(bMKR_D[9])
 	);
 */
-pravilen_VGA pravilen_VGA_inst
+VGA_SHADERS VGA_SHADERS_inst
 	(
 	.clock(wCLK120),//wOSC_CLK 
 	.red_F(bMKR_D[2:0]),
